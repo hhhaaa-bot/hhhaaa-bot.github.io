@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>易购商城 - 在线购物平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --border: #dee2e6;
+        }
+
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        /* Main Content */
+        main {
+            min-height: calc(100vh - 140px);
+            padding: 30px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 200px;
+            background-color: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .product-description {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-buy {
+            flex: 1;
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Seller Login */
+        .login-container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        /* Seller Dashboard */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 25px;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar ul li a:hover, 
+        .sidebar ul li a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+        }
+
+        .dashboard-content {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .order-list {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .order-list th,
+        .order-list td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .order-list th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .order-list tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .qr-code {
+            max-width: 200px;
+            margin: 15px 0;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+        }
+
+        /* Order Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            position: relative;
+            animation: modalOpen 0.3s ease;
+        }
+
+        @keyframes modalOpen {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .order-details {
+            text-align: center;
+        }
+
+        .order-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        .qr-section {
+            margin: 25px 0;
+        }
+
+        /* Notice Board */
+        .notice-board {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--primary);
+        }
+
+        .notice-board h3 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .notice-board h3 i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .notice-content {
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            min-height: 60px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                margin: 15px 0;
+            }
+
+            nav ul li {
+                margin: 0 10px;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 5px;
+            }
+
+            .auth-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-shopping-bag"></i>
+                <span>易购商城</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" id="home-link">首页</a></li>
+                    <li><a href="#" id="products-link">商品</a></li>
+                    <li><a href="#" id="orders-link">我的订单</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" id="seller-login-btn">
+                    <i class="fas fa-user-lock"></i> 商家登录
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Notice Board -->
+    <div class="container">
+        <div class="notice-board">
+            <h3><i class="fas fa-bullhorn"></i> 公告</h3>
+            <div class="notice-content" id="notice-content">
+                欢迎光临易购商城！本商城支持微信、支付宝等多种支付方式，请在下单后及时完成支付。
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Products Section -->
+        <section id="products-section">
+            <h2 class="section-title">商品列表</h2>
+            <div class="products-grid" id="products-container">
+                <!-- Products will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Seller Login Section -->
+        <section id="login-section" style="display: none;">
+            <div class="login-container">
+                <h2 class="section-title">商家登录</h2>
+                <form class="login-form" id="login-form">
+                    <div class="form-group">
+                        <label for="username">用户名</label>
+                        <input type="text" id="username" required placeholder="请输入用户名">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="password" id="password" required placeholder="请输入密码">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i> 登录
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Seller Dashboard -->
+        <section id="dashboard-section" style="display: none;">
+            <div class="dashboard">
+                <div class="sidebar">
+                    <h3>管理面板</h3>
+                    <ul>
+                        <li><a href="#" class="active" data-view="products"><i class="fas fa-box"></i> 商品管理</a></li>
+                        <li><a href="#" data-view="orders"><i class="fas fa-receipt"></i> 订单管理</a></li>
+                        <li><a href="#" data-view="payment"><i class="fas fa-qrcode"></i> 支付设置</a></li>
+                        <li><a href="#" data-view="notice"><i class="fas fa-bullhorn"></i> 公告管理</a></li>
+                        <li><a href="#" id="logout-link"><i class="fas fa-sign-out-alt"></i> 退出登录</a></li>
+                    </ul>
+                </div>
+                <div class="dashboard-content">
+                    <!-- Manage Products View -->
+                    <div id="products-view">
+                        <h2>商品管理</h2>
+                        <form id="product-form">
+                            <div class="form-group">
+                                <label for="product-name">商品名称</label>
+                                <input type="text" id="product-name" required placeholder="请输入商品名称">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-description">商品描述</label>
+                                <textarea id="product-description" placeholder="请输入商品描述"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-price">价格（元）</label>
+                                <input type="number" id="product-price" min="0" step="0.01" required placeholder="0.00">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-image">图片链接</label>
+                                <input type="text" id="product-image" placeholder="请输入图片链接">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> 添加商品
+                            </button>
+                        </form>
+                        
+                        <h3 style="margin-top: 30px;">当前商品</h3>
+                        <div class="product-list" id="product-list">
+                            <!-- Product list will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Orders View -->
+                    <div id="orders-view" style="display: none;">
+                        <h2>订单管理</h2>
+                        <table class="order-list">
+                            <thead>
+                                <tr>
+                                    <th>订单号</th>
+                                    <th>商品</th>
+                                    <th>客户</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-table">
+                                <!-- Orders will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Payment Settings View -->
+                    <div id="payment-view" style="display: none;">
+                        <h2>支付设置</h2>
+                        <form id="payment-form">
+                            <div class="form-group">
+                                <label for="wechat-qr">微信支付二维码</label>
+                                <input type="text" id="wechat-qr" placeholder="请输入微信支付二维码链接">
+                                <div id="wechat-qr-preview" style="margin-top: 10px;"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="alipay-qr">支付宝支付二维码</label>
+                                <input type="text" id="alipay-qr" placeholder="请输入支付宝支付二维码链接">
+                                <div id="alipay-qr-preview" style="margin-top: 10px;"></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> 保存设置
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Notice Management View -->
+                    <div id="notice-view" style="display: none;">
+                        <h2>公告管理</h2>
+                        <form id="notice-form">
+                            <div class="form-group">
+                                <label for="notice-text">公告内容</label>
+                                <textarea id="notice-text" placeholder="请输入公告内容"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> 更新公告
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Order Modal -->
+    <div class="modal" id="order-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="order-details">
+                <h2>订单确认</h2>
+                <p>感谢您的购买！</p>
+                <p>您的订单号为：</p>
+                <div class="order-number" id="order-number">123456789</div>
+                <div class="qr-section">
+                    <p>请选择支付方式并扫描二维码完成支付：</p>
+                    <div style="display: flex; justify-content: center; gap: 20px; margin: 20px 0;">
+                        <div>
+                            <p>微信支付</p>
+                            <img src="https://placehold.co/150x150?text=微信支付" alt="微信支付二维码" class="qr-code" id="wechat-pay-qr">
+                        </div>
+                        <div>
+                            <p>支付宝</p>
+                            <img src="https://placehold.co/150x150?text=支付宝" alt="支付宝二维码" class="qr-code" id="alipay-pay-qr">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="close-order-modal">
+                    <i class="fas fa-check"></i> 完成
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 易购商城. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data
+        let products = [
+            {
+                id: 1,
+                name: "无线蓝牙耳机",
+                description: "高品质无线蓝牙耳机，带降噪功能，续航时间长。",
+                price: 299.00,
+                image: "https://placehold.co/300x200?text=蓝牙耳机"
+            },
+            {
+                id: 2,
+                name: "智能手表",
+                description: "功能丰富的智能手表，健康监测，运动追踪。",
+                price: 599.00,
+                image: "https://placehold.co/300x200?text=智能手表"
+            },
+            {
+                id: 3,
+                name: "蓝牙音箱",
+                description: "便携式音箱，360°环绕音效，续航20小时。",
+                price: 199.00,
+                image: "https://placehold.co/300x200?text=蓝牙音箱"
+            }
+        ];
+
+        let orders = [
+            {
+                id: "ORD-789456",
+                productId: 1,
+                productName: "无线蓝牙耳机",
+                customer: "张三",
+                status: "待支付"
+            },
+            {
+                id: "ORD-123789",
+                productId: 2,
+                productName: "智能手表",
+                customer: "李四",
+                status: "已发货"
+            }
+        ];
+
+        let paymentSettings = {
+            wechatQR: "https://placehold.co/200x200?text=微信支付",
+            alipayQR: "https://placehold.co/200x200?text=支付宝"
+        };
+
+        let noticeContent = "欢迎光临易购商城！本商城支持微信、支付宝等多种支付方式，请在下单后及时完成支付。";
+
+        // DOM Elements
+        const productsSection = document.getElementById('products-section');
+        const loginSection = document.getElementById('login-section');
+        const dashboardSection = document.getElementById('dashboard-section');
+        const loginForm = document.getElementById('login-form');
+        const productForm = document.getElementById('product-form');
+        const productsContainer = document.getElementById('products-container');
+        const productList = document.getElementById('product-list');
+        const ordersTable = document.getElementById('orders-table');
+        const orderModal = document.getElementById('order-modal');
+        const orderNumberElement = document.getElementById('order-number');
+        const closeModal = document.querySelector('.close-modal');
+        const closeOrderModal = document.getElementById('close-order-modal');
+        const noticeContentElement = document.getElementById('notice-content');
+        const paymentForm = document.getElementById('payment-form');
+        const noticeForm = document.getElementById('notice-form');
+
+        // Navigation
+        document.getElementById('home-link').addEventListener('click', showProducts);
+        document.getElementById('products-link').addEventListener('click', showProducts);
+        document.getElementById('seller-login-btn').addEventListener('click', showLogin);
+        document.getElementById('logout-link').addEventListener('click', logout);
+
+        // Dashboard navigation
+        document.querySelectorAll('.sidebar ul li a[data-view]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.sidebar ul li a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+                
+                const view = this.getAttribute('data-view');
+                document.getElementById('products-view').style.display = view === 'products' ? 'block' : 'none';
+                document.getElementById('orders-view').style.display = view === 'orders' ? 'block' : 'none';
+                document.getElementById('payment-view').style.display = view === 'payment' ? 'block' : 'none';
+                document.getElementById('notice-view').style.display = view === 'notice' ? 'block' : 'none';
+                
+                if (view === 'products') {
+                    renderProductList();
+                } else if (view === 'orders') {
+                    renderOrders();
+                } else if (view === 'payment') {
+                    loadPaymentSettings();
+                } else if (view === 'notice') {
+                    loadNoticeContent();
+                }
+            });
+        });
+
+        // Event Listeners
+        loginForm.addEventListener('submit', handleLogin);
+        productForm.addEventListener('submit', addProduct);
+        paymentForm.addEventListener('submit', savePaymentSettings);
+        noticeForm.addEventListener('submit', saveNoticeContent);
+        closeModal.addEventListener('click', () => orderModal.style.display = 'none');
+        closeOrderModal.addEventListener('click', () => orderModal.style.display = 'none');
+        window.addEventListener('click', (e) => {
+            if (e.target === orderModal) {
+                orderModal.style.display = 'none';
+            }
+        });
+
+        // Initialize
+        renderProducts();
+        noticeContentElement.textContent = noticeContent;
+
+        // Functions
+        function showProducts() {
+            productsSection.style.display = 'block';
+            loginSection.style.display = 'none';
+            dashboardSection.style.display = 'none';
+        }
+
+        function showLogin() {
+            productsSection.style.display = 'none';
+            loginSection.style.display = 'block';
+            dashboardSection.style.display = 'none';
+        }
+
+        function showDashboard() {
+            productsSection.style.display = 'none';
+            loginSection.style.display = 'none';
+            dashboardSection.style.display = 'block';
+            renderProductList();
+            renderOrders();
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Fixed password as required
+            if (password === 'Zhu821209') {
+                alert('登录成功！');
+                showDashboard();
+            } else {
+                alert('密码错误，请重新输入！');
+            }
+        }
+
+        function logout(e) {
+            e.preventDefault();
+            showProducts();
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        function renderProducts() {
+            productsContainer.innerHTML = '';
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">¥${product.price.toFixed(2)}</div>
+                        <div class="product-actions">
+                            <button class="btn btn-buy" data-id="${product.id}">
+                                <i class="fas fa-shopping-cart"></i> 立即购买
+                            </button>
+                        </div>
+                    </div>
+                `;
+                productsContainer.appendChild(productCard);
+            });
+
+            // Add event listeners to buy buttons
+            document.querySelectorAll('.btn-buy').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    placeOrder(productId);
+                });
+            });
+        }
+
+        function renderProductList() {
+            productList.innerHTML = '';
+            products.forEach(product => {
+                const productItem = document.createElement('div');
+                productItem.className = 'product-card';
+                productItem.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">¥${product.price.toFixed(2)}</div>
+                        <button class="btn btn-danger" data-id="${product.id}">
+                            <i class="fas fa-trash"></i> 删除
+                        </button>
+                    </div>
+                `;
+                productList.appendChild(productItem);
+            });
+
+            // Add event listeners to delete buttons
+            document.querySelectorAll('.btn-danger').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    deleteProduct(productId);
+                });
+            });
+        }
+
+        function renderOrders() {
+            ordersTable.innerHTML = '';
+            orders.forEach(order => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${order.id}</td>
+                    <td>${order.productName}</td>
+                    <td>${order.customer}</td>
+                    <td>${order.status}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm">
+                            <i class="fas fa-edit"></i> 更新
+                        </button>
+                    </td>
+                `;
+                ordersTable.appendChild(row);
+            });
+        }
+
+        function addProduct(e) {
+            e.preventDefault();
+            const name = document.getElementById('product-name').value;
+            const description = document.getElementById('product-description').value;
+            const price = parseFloat(document.getElementById('product-price').value);
+            const image = document.getElementById('product-image').value || 'https://placehold.co/300x200?text=商品图片';
+
+            const newProduct = {
+                id: products.length + 1,
+                name,
+                description,
+                price,
+                image
+            };
+
+            products.push(newProduct);
+            renderProductList();
+            renderProducts();
+            
+            // Reset form
+            productForm.reset();
+            alert('商品添加成功！');
+        }
+
+        function deleteProduct(productId) {
+            if (confirm('确定要删除这个商品吗？')) {
+                products = products.filter(product => product.id !== productId);
+                renderProductList();
+                renderProducts();
+            }
+        }
+
+        function placeOrder(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            // Generate order number
+            const orderNumber = 'ORD-' + Math.floor(100000 + Math.random() * 900000);
+            
+            // Add to orders
+            const newOrder = {
+                id: orderNumber,
+                productId: product.id,
+                productName: product.name,
+                customer: "顾客",
+                status: "待支付"
+            };
+            
+            orders.push(newOrder);
+            
+            // Show order modal
+            orderNumberElement.textContent = orderNumber;
+            document.getElementById('wechat-pay-qr').src = paymentSettings.wechatQR;
+            document.getElementById('alipay-pay-qr').src = paymentSettings.alipayQR;
+            orderModal.style.display = 'flex';
+        }
+
+        function loadPaymentSettings() {
+            document.getElementById('wechat-qr').value = paymentSettings.wechatQR;
+            document.getElementById('alipay-qr').value = paymentSettings.alipayQR;
+            
+            // Preview QR codes
+            updateQRPreview('wechat-qr-preview', paymentSettings.wechatQR);
+            updateQRPreview('alipay-qr-preview', paymentSettings.alipayQR);
+            
+            // Add event listeners to update previews
+            document.getElementById('wechat-qr').addEventListener('input', function() {
+                updateQRPreview('wechat-qr-preview', this.value);
+            });
+            
+            document.getElementById('alipay-qr').addEventListener('input', function() {
+                updateQRPreview('alipay-qr-preview', this.value);
+            });
+        }
+
+        function updateQRPreview(containerId, qrUrl) {
+            const container = document.getElementById(containerId);
+            if (qrUrl) {
+                container.innerHTML = `<img src="${qrUrl}" alt="QR预览" class="qr-code" style="max-width: 150px;">`;
+            } else {
+                container.innerHTML = '';
+            }
+        }
+
+        function savePaymentSettings(e) {
+            e.preventDefault();
+            paymentSettings.wechatQR = document.getElementById('wechat-qr').value || 'https://placehold.co/200x200?text=微信支付';
+            paymentSettings.alipayQR = document.getElementById('alipay-qr').value || 'https://placehold.co/200x200?text=支付宝';
+            
+            alert('支付设置保存成功！');
+        }
+
+        function loadNoticeContent() {
+            document.getElementById('notice-text').value = noticeContent;
+        }
+
+        function saveNoticeContent(e) {
+            e.preventDefault();
+            noticeContent = document.getElementById('notice-text').value;
+            noticeContentElement.textContent = noticeContent;
+            alert('公告更新成功！');
+        }
+    </script>
+</body>
+</html>
